@@ -4,14 +4,29 @@
     <span class="addContainer" @click="addTodo">
       <i class="fas fa-plus addBtn"></i>
     </span>
+
+    <Modal v-if="showModal" @close="showModal = false">
+      <h3 slot="header">
+        경고!
+        <i class="closeModalBtn fas fa-times-circle"
+           @click="showModal = false"></i>
+      </h3>
+
+      <div slot="body">
+        입력값이 없습니다.
+      </div>
+
+    </Modal>
   </div>
 </template>
 
 <script>
+  import Modal from './common/Modal'
   export default {
     data() {
       return {
-        newTodoItem: ''
+        newTodoItem: '',
+        showModal: false,
       }
     },
     methods: {
@@ -19,11 +34,16 @@
         if(this.newTodoItem !== ''){
           this.$emit('addTodoItem', this.newTodoItem);
           this.clearInput();
+        }else{
+          this.showModal = !this.showModal;
         }
       },
       clearInput() {
         this.newTodoItem = '';
       }
+    },
+    components: {
+      Modal
     }
   }
 </script>
@@ -56,5 +76,12 @@
   .addBtn {
     color: #fff;
     vertical-align: middle;
+  }
+  .closeModalBtn {
+    position:absolute;
+    top:10px;
+    right:10px;
+    color:#42b983;
+    cursor: pointer;
   }
 </style>
